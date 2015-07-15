@@ -48,7 +48,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
 @property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
-@property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
@@ -103,11 +102,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return self;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -134,12 +128,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewWillAppear:animated];
     
-    UIApplication *application = [UIApplication rsk_sharedApplication];
-    if (application) {
-        self.originalStatusBarHidden = application.statusBarHidden;
-        [application setStatusBarHidden:YES];
-    }
-    
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
@@ -158,11 +146,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    UIApplication *application = [UIApplication rsk_sharedApplication];
-    if (application) {
-        [application setStatusBarHidden:self.originalStatusBarHidden];
-    }
     
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];
     self.navigationController.navigationBar.shadowImage = self.originalNavigationControllerNavigationBarShadowImage;
